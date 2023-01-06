@@ -11,6 +11,7 @@
   "profiles": {
     "API": {
       "commandName": "Project",
+      "hotReloadEnabled": false,
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
