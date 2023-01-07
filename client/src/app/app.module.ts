@@ -14,16 +14,26 @@ import { MembersListComponent } from './members/members-list/members-list.compon
 import { MembersDetailComponent } from './members/members-detail/members-detail.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SharedModule } from './_modules/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent, MembersListComponent, MembersDetailComponent, ListsComponent, MessagesComponent],
+  declarations: [
+    AppComponent, 
+    NavComponent, 
+    HomeComponent, 
+    RegisterComponent, 
+    MembersListComponent, 
+    MembersDetailComponent, 
+    ListsComponent, 
+    MessagesComponent
+  ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule, 
     AppRoutingModule, 
     HttpClientModule, 
     FormsModule, 
-    BsDropdownModule.forRoot(),
-    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

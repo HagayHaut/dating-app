@@ -5,6 +5,7 @@ import { ListsComponent } from './lists/lists.component';
 import { MembersDetailComponent } from './members/members-detail/members-detail.component';
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { MessagesComponent } from './messages/messages.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,20 +13,27 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'members',
-    component: MembersListComponent,
-  },
-  {
-    path: 'members/:id',
-    component: MembersDetailComponent,
-  },
-  {
-    path: 'lists',
-    component: ListsComponent,
-  },
-  {
-    path: 'messages',
-    component: MessagesComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'members',
+        component: MembersListComponent,
+      },
+      {
+        path: 'members/:id',
+        component: MembersDetailComponent,
+      },
+      {
+        path: 'lists',
+        component: ListsComponent,
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+      },
+    ],
   },
   {
     path: '**',
@@ -36,6 +44,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

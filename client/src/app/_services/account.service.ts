@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, tap, Observable } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class AccountService {
 
   login(model: any) {
     return this._http.post<User>(`${this.API}/account/login`, model).pipe(
-      map((response: User) => {
+      tap((response: User) => {
         const user = response;
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -27,7 +27,7 @@ export class AccountService {
 
   register(model: any) {
     return this._http.post<User>(`${this.API}/account/register`, model).pipe(
-      map(user => {
+      tap(user => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
