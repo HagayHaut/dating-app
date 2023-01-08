@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
+[Authorize]
 public class UsersController : BaseApiController
 {
     private readonly ILogger<UsersController> _logger;
@@ -23,7 +24,7 @@ public class UsersController : BaseApiController
         var users = await _DbContext.Users.ToListAsync();
         return users;
     }
-    [Authorize]
+    
     [HttpGet("{id}")] // "GET /api/users/:id"
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {
