@@ -10,6 +10,8 @@
 
 .card-footer {
     padding: 10px 15px;
-    background-color: #333;
+    background-color: white;
     border-top: none;
 }
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
