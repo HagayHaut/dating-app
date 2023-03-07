@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 export class PhotoEditorComponent implements OnInit {
   @Input() member: Member | undefined;
   uploader: FileUploader | undefined;
-  hasBaseDropzoneOver = false;
+  hasBaseDropZoneOver = false;
   API = environment.apiUrl;
   user: User | undefined;
 
@@ -23,16 +23,33 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeUploader();
   }
 
   fileOverBase(e: any) {
-    this.hasBaseDropzoneOver = e;
+    this.hasBaseDropZoneOver = e;
   }
 
   initializeUploader() {
     this.uploader = new FileUploader({
       url: `${this.API}/users/add-photo`,
-      
-    })
+      authToken: `Bearer ${this.user?.token}`,
+      isHTML5: true,
+      allowedFileType: ['image'],
+      removeAfterUpload: true,
+      autoUpload: false,
+      maxFileSize: 10 * 1024 * 1024 // 10MB
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    }
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      if (response) {
+        const photo = JSON.parse(response);
+        this.member?.photos.push(photo);
+      }
+    }
   }
 }
