@@ -11,15 +11,15 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  model: any = {};
   registerForm: FormGroup = new FormGroup({});
   maxDate: Date = new Date();
+  validationErrors: string[] | undefined;
 
   constructor(
       private _accountService: AccountService, 
       private _router: Router,
       private _toastr: ToastrService,
-      private _formBuilder: FormBuilder
+      private _formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -54,20 +54,30 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void {
-    console.log(this.registerForm?.value)
-    // this._accountService.register(this.model).subscribe({
-    //   next: () => {
-    //     this.cancel();
-    //     this._router.navigateByUrl('/members')
-    //   },
-    //   error: e => {
-    //     console.log(e)
-    //     this._toastr.error(e.error);
-    //   } ,
-    // });
+    const sanitizedFormValues = {
+      ...this.registerForm.value, 
+      dateOfBirth: this.sanitizeDate(this.registerForm.controls['dateOfBirth'].value),
+    }
+    
+    this._accountService.register(sanitizedFormValues).subscribe({
+      next: () => {
+        this._router.navigateByUrl('/members');
+      },
+      error: (e: string[]) => {
+        this.validationErrors = e;
+      } ,
+    });
   }
 
   cancel() {
     this.cancelRegister.emit(false);
+  }
+
+  private sanitizeDate(dob: string | undefined | Date): string | undefined{
+    if (!dob) return;
+    dob = new Date(dob);
+    return new Date(dob.setMinutes(dob.getMinutes() - dob.getTimezoneOffset()))
+      .toISOString()
+      .slice(0, 10);
   }
 }

@@ -47,6 +47,11 @@ export class PhotoEditorComponent implements OnInit {
       if (response) {
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if (photo.isMain && this.user && this.member) { // set nav bar img when auto-set to main
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this._accountService.setCurrentUser(this.user);
+        }
       }
     }
   }
