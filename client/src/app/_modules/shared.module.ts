@@ -7,7 +7,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { FileUploadModule } from 'ng2-file-upload';
       type: 'line-scale-party',
     }),
     FileUploadModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    PaginationModule.forRoot(),
   ],
   exports: [
     BsDropdownModule,
@@ -33,7 +34,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     NgxGalleryModule,
     NgxSpinnerModule,
     FileUploadModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    PaginationModule
   ]
 })
 export class SharedModule { }
